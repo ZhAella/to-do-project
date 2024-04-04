@@ -14,20 +14,20 @@ class TaskAPIView(APIView):
     def get(self, request, pk=None):
         if pk is not None:
             task = get_object_or_404(models.Task, pk=pk)
-            serializer = serializers.TaskSerializer(task)
+            serializer = serializers.TaskRequestSerializer(task)
             return Response(serializer.data)
 
         paginator = self.pagination_class()
         tasks = models.Task.objects.all()
-        result_page = paginator.paginate_queryset(tasks, request)
-        serializer = serializers.TaskSerializer(tasks, many=True)
+        paginator.paginate_queryset(tasks, request)
+        serializer = serializers.TaskRequestSerializer(tasks, many=True)
         if tasks.exists():
             return paginator.get_paginated_response(serializer.data)
         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
     @staticmethod
     def post(request):
-        serializer = serializers.TaskSerializer(data=request.data)
+        serializer = serializers.TaskResponseSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -36,7 +36,7 @@ class TaskAPIView(APIView):
     @staticmethod
     def put(request, pk):
         task = get_object_or_404(models.Task, pk=pk)
-        serializer = serializers.TaskSerializer(task, request.data)
+        serializer = serializers.TaskResponseSerializer(task, request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
