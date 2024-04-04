@@ -10,7 +10,7 @@ class StatusSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=50)
 
 
-class TaskRequestSerializer(serializers.Serializer):
+class TaskResponseSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField(max_length=50)
     description = serializers.CharField(max_length=255)
@@ -19,7 +19,7 @@ class TaskRequestSerializer(serializers.Serializer):
     completion_data = serializers.DateTimeField()
 
 
-class TaskResponseSerializer(serializers.Serializer):
+class TaskRequestSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=50)
     description = serializers.CharField(max_length=255)
